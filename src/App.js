@@ -1,25 +1,165 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Banner from './Components/Banner';
+
+import Tools from './Components/Tools';
+import Board from './Components/Board';
+import _ from 'lodash';
+import GameInfo from './Components/GameInfo';
+import NewGame from './Components/Controls/NewGame';
+
+import './index.css';
+  import 'bulma/css/bulma.css'
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    // cellValues = [ 5,5,5,5,5,5,5,5,5,5,5,5,5,5, .... 5  ]
+    // cellsBackgroundColors = [ "bg-white" , "bg-white" , "bg-white" , "bg-white" , "bg-white" , "bg-white" , "bg-white" ,  .....   ]
+
+    this.NewGame = new NewGame();
+
+    this.state = {
+      cellValues: new Array(81).fill('5'),
+      cellsBackgroundColors: new Array(81).fill('bg-white'),
+      gameLevel: null,
+      complexityLevel: null,
+      countEmptyCells: null,
+      complexityLog: 1,
+    };
+  }
+
+  handleChange = () => {};
+
+  resetColors = () => {
+    const colors = new Array(81).fill('bg-white');
+    this.setState({cellsBackgroundColors: [...colors]});
+  };
+
+  makeCoral = () => {
+    const colors = new Array(81).fill('bg-coral');
+    this.setState({cellsBackgroundColors: [...colors]});
+  };
+
+  loadAnewGame = () => {
+    let gameObj = this.NewGame.getFirstValue();
+    let level = gameObj.level;
+
+    console.log(' gameObj  ', gameObj);
+
+    console.log('gameObj.str  ', gameObj.str);
+
+    let newArr = gameObj.str.split(';');
+    newArr.pop();
+
+    console.log('newArr ', newArr);
+
+    this.setState({cellValues: [...newArr], gameLevel: level});
+    // this.setState({ cellValues: [ ] });
+
+    this.resetColors();
+
+    // it will get a string value from Engine.js game String
+    //  var str = "5,,,1,,8,,,9,,,,6,,,,,2,,,2,,5,,,,6";
+
+    //const cells  = new Array(81).fill(  _.sample( [1,2,3,4,5,6,7,8,9] )    ) ;
+    //  this.setState( { cellValues : [...cells ] }) ;
+  };
+
+  solve = () => {
+    console.log('Solve ');
+  };
+  stop = () => {
+    console.log('stop ');
+
+    this.makeCoral();
+  };
+
+  newGame = () => {
+    console.log('newGame');
+    this.loadAnewGame();
+  };
+  deleteGame = () => {
+    console.log('deleteGame');
+  };
+
+  getThisAsStr = () => {
+    console.log('getThisAsStr');
+  };
+  goBackT = () => {
+    console.log('goBackT');
+  };
+
+  componentDidMount() {
+    this.loadAnewGame();
+  }
+  getYear() {
+    return new Date().getFullYear();
+  }
+
+  componentDidMount() {}
+
+  render() {
+    return (
+      <React.Fragment>
+        <div>
+          <section className='hero is-fullheight'>
+            <div className='container is-fluid'>
+              <Banner />
+
+              <div className='container'>
+                <Tools
+                  solve={this.solve}
+                  stop={this.stop}
+                  newGame={this.newGame}
+                  deleteGame={this.deleteGame}
+                  getThisAsStr={this.getThisAsStr}
+                  goBackT={this.goBackT}
+                />
+              </div>
+              <div className='container'>
+                <div className='columns'>
+                  <div className='column'>
+                    <Board
+                      handleChange={this.handleChange}
+                      handleFocus={this.handleFocus}
+                      cellValues={this.state.cellValues}
+                      cellsBackgroundColors={this.state.cellsBackgroundColors}
+                    />
+                  </div>
+                  <div className='column'>
+                    <GameInfo
+                      gameLevel={this.state.gameLevel}
+                      complexityLevel={this.state.complexityLevel}
+                      countEmptyCells={this.state.countEmptyCells}
+                      complexityLog={this.state.complexityLog}
+                    />
+                  </div>
+                  <div className='column'>
+                    <div className='columns'>
+                      <div className='row'>
+                        <div className='column'> Analysis of the game </div>
+                        <div className='column'> Number of solved </div>
+
+                        <div className='column'>Input box</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <footer className='footer'>
+              <div className='content has-text-centered'>
+                <p>Sudoku game with React {this.getYear()}</p>
+              </div>
+            </footer>
+          </section>
+        </div>
+      </React.Fragment>
+    );
+  }
 }
 
 export default App;
