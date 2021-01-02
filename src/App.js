@@ -9,7 +9,7 @@ import GameInfo from './Components/GameInfo';
 import NewGame from './Components/Controls/NewGame';
 
 import './index.css';
-  import 'bulma/css/bulma.css'
+import 'bulma/css/bulma.css'
 
 class App extends Component {
   constructor(props) {
