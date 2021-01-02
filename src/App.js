@@ -31,6 +31,8 @@ class App extends Component {
 
       consoleMessage: 'First Message',
       numberOfSolved: 0,
+
+      messageBoxBelow: ':)',
     };
   }
 
@@ -93,7 +95,9 @@ class App extends Component {
     this.loadAnewGame();
   };
   deleteGame = () => {
-    console.log('deleteGame');
+    const newArr = new Array(81).fill(""); // [ "NewValue" , "NewValue" , "NewValue" , ]
+    this.setState({ cellValues: [...newArr] });
+    this.resetColors();
   };
 
   getThisAsStr = () => {
@@ -163,9 +167,16 @@ class App extends Component {
                             sendConsole={this.sendConsole}
                           />
                         </div>
-                  
 
-                        <div className='column'>Input box</div>
+                        {/* Input box */}
+                        <div className='column'>
+                          <input
+                            className='button is-large'
+                            readOnly
+                            id='messageBoxBelow'
+                            value={this.state.messageBoxBelow}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
