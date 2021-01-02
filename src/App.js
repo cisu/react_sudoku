@@ -7,9 +7,10 @@ import Board from './Components/Board';
 import _ from 'lodash';
 import GameInfo from './Components/GameInfo';
 import NewGame from './Components/Controls/NewGame';
+import ConsoleRight from './Components/ConsoleRight';
 
 import './index.css';
-import 'bulma/css/bulma.css'
+import 'bulma/css/bulma.css';
 
 class App extends Component {
   constructor(props) {
@@ -27,6 +28,9 @@ class App extends Component {
       complexityLevel: null,
       countEmptyCells: null,
       complexityLog: 1,
+
+      consoleMessage: 'First Message',
+      numberOfSolved: 0,
     };
   }
 
@@ -65,6 +69,14 @@ class App extends Component {
 
     //const cells  = new Array(81).fill(  _.sample( [1,2,3,4,5,6,7,8,9] )    ) ;
     //  this.setState( { cellValues : [...cells ] }) ;
+  };
+
+  handleShowFound = () => {
+    console.log(' handleShowFound ');
+  };
+
+  sendConsole = () => {
+    console.log(' sendConsole ');
   };
 
   solve = () => {
@@ -128,6 +140,7 @@ class App extends Component {
                       cellsBackgroundColors={this.state.cellsBackgroundColors}
                     />
                   </div>
+                  {/* Game Info */}
                   <div className='column'>
                     <GameInfo
                       gameLevel={this.state.gameLevel}
@@ -139,8 +152,18 @@ class App extends Component {
                   <div className='column'>
                     <div className='columns'>
                       <div className='row'>
-                        <div className='column'> Analysis of the game </div>
-                        <div className='column'> Number of solved </div>
+                        {/* Analysis of the Game
+                         Number of solved 
+                        */}
+                        <div className='column'>
+                          <ConsoleRight
+                            consoleMessage={this.state.consoleMessage}
+                            numberOfSolved={this.state.numberOfSolved}
+                            showFound={this.handleShowFound}
+                            sendConsole={this.sendConsole}
+                          />
+                        </div>
+                  
 
                         <div className='column'>Input box</div>
                       </div>
