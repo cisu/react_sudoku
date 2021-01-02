@@ -95,13 +95,27 @@ class App extends Component {
     this.loadAnewGame();
   };
   deleteGame = () => {
-    const newArr = new Array(81).fill(""); // [ "NewValue" , "NewValue" , "NewValue" , ]
-    this.setState({ cellValues: [...newArr] });
+    const newArr = new Array(81).fill(''); // [ "NewValue" , "NewValue" , "NewValue" , ]
+    this.setState({cellValues: [...newArr]});
     this.resetColors();
   };
 
   getThisAsStr = () => {
     console.log('getThisAsStr');
+    let cValues = [...this.state.cellValues];
+
+    let str = '';
+
+    cValues.map(element => {
+      // "2" => 2
+      if (parseInt(element) > 0) {
+        str = str + element + ';';
+      } else {
+        str = str + ';';
+      }
+    });
+
+    this.setState({messageBoxBelow: str});
   };
   goBackT = () => {
     console.log('goBackT');
